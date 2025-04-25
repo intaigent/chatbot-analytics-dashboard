@@ -10,6 +10,7 @@ const Dashboard = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [expandedFilter, setExpandedFilter] = useState(null);
   
   // Color palette
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#8dd1e1'];
@@ -22,6 +23,34 @@ const Dashboard = () => {
     'crisis_management': '#82ca9d',
     'validation': '#ffc658',
     'off_topic': '#8dd1e1'
+  };
+  
+  // Filter placeholders with single option
+  const filters = [
+    { 
+      name: 'Age',
+      tooltip: 'pending feature',
+      options: ['incoming feature']
+    },
+    { 
+      name: 'Gender',
+      tooltip: 'pending feature',
+      options: ['incoming feature']
+    },
+    { 
+      name: 'Region',
+      tooltip: 'pending feature',
+      options: ['incoming feature']
+    },
+    { 
+      name: 'Role',
+      tooltip: 'pending feature',
+      options: ['incoming feature']
+    }
+  ];
+
+  const handleFilterClick = (filterName) => {
+    setExpandedFilter(expandedFilter === filterName ? null : filterName);
   };
   
   useEffect(() => {
@@ -311,7 +340,34 @@ const Dashboard = () => {
   
   return (
     <div className="dashboard-container">
-      <h1 className="title">RAG Chatbot Analytics Dashboard</h1>
+      <h1 className="title">Conversation Insight Dashboard</h1>
+      <div className="filters-container">
+        {filters.map((filter, index) => (
+          <div key={index} className="filter-wrapper">
+            <div 
+              className={`filter-item ${expandedFilter === filter.name ? 'expanded' : ''}`}
+              onClick={() => handleFilterClick(filter.name)}
+              title={filter.tooltip}
+            >
+              {filter.name}
+              <span className="filter-arrow">▼</span>
+            </div>
+            {expandedFilter === filter.name && (
+              <div className="filter-options">
+                {filter.options.map((option, optIndex) => (
+                  <div 
+                    key={optIndex} 
+                    className="filter-option"
+                    title="pending feature"
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
       
       {/* Section 1: Session Activity Analysis */}
       <div className="section">
