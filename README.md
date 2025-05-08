@@ -1,4 +1,4 @@
-# Chatbot Analytics Dashboard
+# QA Dashboard
 
 A React-based dashboard for visualizing and analyzing user interactions with the Business Learning Framework (BLF) chatbot. This dashboard provides insights into user behavior, question patterns, and learning outcomes.
 
