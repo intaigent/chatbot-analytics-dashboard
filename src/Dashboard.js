@@ -68,7 +68,7 @@ const Dashboard = () => {
             // Clean up data - trim strings and handle nulls
             const cleanedData = result.data.map(item => ({
               ...item,
-              business_maturity: item.business_maturity ? item.business_maturity.trim() : 'unknown',
+              question_complexity: item.question_complexity ? item.question_complexity.trim() : 'unknown',
               learning_path: item.learning_path ? item.learning_path.trim() : 'none',
               user_intent: item.user_intent || 'unknown'
             }));
@@ -161,8 +161,8 @@ const Dashboard = () => {
   const processMaturityData = () => {
     const counts = {};
     data.forEach(item => {
-      const maturity = item.business_maturity || 'unknown';
-      counts[maturity] = (counts[maturity] || 0) + 1;
+      const complexity = item.question_complexity || 'unknown';
+      counts[complexity] = (counts[complexity] || 0) + 1;
     });
     
     return Object.keys(counts).map(key => {
@@ -305,7 +305,7 @@ const Dashboard = () => {
   const getExampleQuestions = () => {
     const examples = {
       intents: {},
-      maturity: {}
+      complexity: {}
     };
     
     // Get intent examples
@@ -320,15 +320,15 @@ const Dashboard = () => {
       }
     });
     
-    // Get maturity examples
-    const maturityLevels = ['startup', 'intermediate', 'advanced'];
-    maturityLevels.forEach(level => {
-      const maturityQuestions = data.filter(item => item.business_maturity === level);
-      if (maturityQuestions.length > 0) {
+    // Get complexity examples
+    const complexityLevels = ['beginner', 'intermediate', 'advanced'];
+    complexityLevels.forEach(level => {
+      const complexityQuestions = data.filter(item => item.question_complexity === level);
+      if (complexityQuestions.length > 0) {
         // Get a question with content
-        const validQuestions = maturityQuestions.filter(q => q.question && q.question.length > 10);
+        const validQuestions = complexityQuestions.filter(q => q.question && q.question.length > 10);
         const randomIndex = Math.floor(Math.random() * Math.min(validQuestions.length, 5));
-        examples.maturity[level] = validQuestions[randomIndex]?.question || 'No example available';
+        examples.complexity[level] = validQuestions[randomIndex]?.question || 'No example available';
       }
     });
     
@@ -476,7 +476,7 @@ const Dashboard = () => {
           
           {/* Business Maturity */}
           <div className="card">
-            <h3 className="card-title">Business Maturity Distribution</h3>
+            <h3 className="card-title">Question Complexity Distribution</h3>
             <div className="grid grid-2-col">
               <div className="chart-container">
                 <ResponsiveContainer width="100%" height="100%">
@@ -501,18 +501,18 @@ const Dashboard = () => {
               </div>
               
               <div className="example-container">
-                <h4 className="example-title">Example Questions by Maturity:</h4>
+                <h4 className="example-title">Example Questions by Complexity:</h4>
                 <div>
-                  <p className="example-label problem">Startup:</p>
-                  <p className="example-text">{exampleQuestions.maturity.startup}</p>
+                  <p className="example-label problem">Beginner:</p>
+                  <p className="example-text">{exampleQuestions.complexity.beginner}</p>
                 </div>
                 <div>
                   <p className="example-label knowledge">Intermediate:</p>
-                  <p className="example-text">{exampleQuestions.maturity.intermediate}</p>
+                  <p className="example-text">{exampleQuestions.complexity.intermediate}</p>
                 </div>
                 <div>
                   <p className="example-label decision">Advanced:</p>
-                  <p className="example-text">{exampleQuestions.maturity.advanced}</p>
+                  <p className="example-text">{exampleQuestions.complexity.advanced}</p>
                 </div>
               </div>
             </div>
