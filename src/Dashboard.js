@@ -122,12 +122,19 @@ const Dashboard = () => {
       questions: parseInt(count),
       sessions: distribution[count]
     })).sort((a, b) => a.questions - b.questions);
+
+    // Calculate median questions per session
+    const sortedCounts = questionsPerSession.map(s => s.count).sort((a, b) => a - b);
+    const middle = Math.floor(sortedCounts.length / 2);
+    const medianQuestionsPerSession = sortedCounts.length % 2 === 0
+      ? ((sortedCounts[middle - 1] + sortedCounts[middle]) / 2).toFixed(2)
+      : sortedCounts[middle].toFixed(2);
     
     return {
       sessionsCount: Object.keys(sessionQuestions).length,
       questionsPerSession: questionsPerSession,
       distributionData: distributionData,
-      avgQuestionsPerSession: (data.length / Object.keys(sessionQuestions).length).toFixed(2)
+      medianQuestionsPerSession: medianQuestionsPerSession
     };
   };
   
@@ -387,8 +394,8 @@ const Dashboard = () => {
           </div>
           
           <div className="card">
-            <h3 className="card-title">Avg Questions/Session</h3>
-            <p className="card-value">{sessionData.avgQuestionsPerSession}</p>
+            <h3 className="card-title">Median Questions/Session</h3>
+            <p className="card-value">{sessionData.medianQuestionsPerSession}</p>
           </div>
           
           <div className="card">
